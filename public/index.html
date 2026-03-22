@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #fafafa;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        h1 {
+            color: #111;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 6px 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin: 0 0 28px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #fff;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #111;
+            box-shadow: 0 0 0 2px rgba(17, 17, 17, 0.08);
+        }
+        
+        input.valid {
+            border-color: #22c55e;
+        }
+        
+        input.invalid {
+            border-color: #ef4444;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .check-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #22c55e;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+        
+        .check-icon.show {
+            opacity: 1;
+        }
+        
+        .helper {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+            min-height: 16px;
+        }
+        
+        .helper.error {
+            color: #ef4444;
+        }
+        
+        .helper.success {
+            color: #22c55e;
+        }
+        
+        .strength-bar {
+            height: 3px;
+            background: #eee;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 2px;
+            transition: width 0.2s ease, background-color 0.2s ease;
+        }
+        
+        .strength-fill.weak { background: #ef4444; }
+        .strength-fill.medium { background: #f59e0b; }
+        .strength-fill.strong { background: #22c55e; }
+        
+        .strength-text {
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 11px 16px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.15s ease;
+        }
+        
+        button:hover {
+            background: #333;
+        }
+        
+        button:active {
+            background: #000;
+        }
+        
+        .error-banner {
+            color: #ef4444;
+            font-size: 13px;
+            background: #fef2f2;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            display: none;
+            border: 1px solid #fecaca;
+        }
+        
+        .error-banner.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create account</h1>
+        <p class="subtitle">Enter your details to get started</p>
+        
+        <div id="error" class="error-banner"></div>
+        
+        <form id="myForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <div class="input-wrapper">
+                    <input type="text" id="name" placeholder="Your name" autocomplete="name">
+                    <span class="check-icon" id="name-check">&#10003;</span>
+                </div>
+                <div class="helper" id="name-helper"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+                    <span class="check-icon" id="email-check">&#10003;</span>
+                </div>
+                <div class="helper" id="email-helper"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age</label>
+                <div class="input-wrapper">
+                    <input type="number" id="age" placeholder="Your age" min="1" max="120">
+                    <span class="check-icon" id="age-check">&#10003;</span>
+                </div>
+                <div class="helper" id="age-helper"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" placeholder="Min 6 characters" autocomplete="new-password">
+                    <span class="check-icon" id="password-check">&#10003;</span>
+                </div>
+                <div class="strength-bar">
+                    <div class="strength-fill" id="strength-fill"></div>
+                </div>
+                <div class="strength-text" id="strength-text"></div>
+            </div>
+            
+            <button type="submit">Create account</button>
+        </form>
+    </div>
+
+    <script>
+        var nameInput = document.getElementById('name');
+        var emailInput = document.getElementById('email');
+        var ageInput = document.getElementById('age');
+        var passwordInput = document.getElementById('password');
+        var errorBanner = document.getElementById('error');
+        var strengthFill = document.getElementById('strength-fill');
+        var strengthText = document.getElementById('strength-text');
+
+        function setValidation(input, checkId, helperId, isValid, message, isError) {
+            var check = document.getElementById(checkId);
+            var helper = document.getElementById(helperId);
+            
+            input.classList.remove('valid', 'invalid');
+            check.classList.remove('show');
+            helper.className = 'helper';
+            helper.textContent = '';
+            
+            if (input.value.length === 0) return;
+            
+            if (isValid) {
+                input.classList.add('valid');
+                check.classList.add('show');
+                if (message) {
+                    helper.className = 'helper success';
+                    helper.textContent = message;
+                }
+            } else {
+                input.classList.add('invalid');
+                if (message) {
+                    helper.className = 'helper error';
+                    helper.textContent = message;
+                }
+            }
+        }
+
+        nameInput.addEventListener('input', function() {
+            setValidation(this, 'name-check', 'name-helper', this.value.length >= 2, 
+                this.value.length > 0 && this.value.length < 2 ? 'Name must be at least 2 characters' : '', false);
+        });
+
+        emailInput.addEventListener('input', function() {
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            setValidation(this, 'email-check', 'email-helper', emailPattern.test(this.value),
+                this.value.length > 0 && !emailPattern.test(this.value) ? 'Please enter a valid email' : '', false);
+        });
+
+        ageInput.addEventListener('input', function() {
+            var age = parseInt(this.value);
+            var isValid = !isNaN(age) && age >= 13 && age <= 120;
+            var message = '';
+            if (this.value.length > 0 && !isValid) {
+                if (isNaN(age)) message = 'Please enter a valid age';
+                else if (age < 13) message = 'Must be at least 13 years old';
+                else if (age > 120) message = 'Please enter a valid age';
+            }
+            setValidation(this, 'age-check', 'age-helper', isValid, message, false);
+        });
+
+        passwordInput.addEventListener('input', function() {
+            var password = this.value;
+            var strength = 0;
+            var strengthLabel = '';
+            var strengthClass = '';
+            
+            if (password.length === 0) {
+                strength = 0;
+            } else if (password.length < 6) {
+                strength = 25;
+                strengthLabel = 'Too short';
+                strengthClass = 'weak';
+            } else {
+                strength += password.length >= 6 ? 25 : 0;
+                strength += password.length >= 10 ? 25 : 0;
+                strength += /[A-Z]/.test(password) ? 25 : 0;
+                strength += /[0-9]/.test(password) ? 25 : 0;
+                
+                if (strength === 50) {
+                    strengthLabel = 'Fair';
+                    strengthClass = 'medium';
+                } else if (strength >= 75) {
+                    strengthLabel = 'Strong';
+                    strengthClass = 'strong';
+                } else {
+                    strengthLabel = 'Weak';
+                    strengthClass = 'weak';
+                }
+            }
+            
+            strengthFill.style.width = strength + '%';
+            strengthFill.className = 'strength-fill ' + strengthClass;
+            strengthText.textContent = strengthLabel;
+            
+            var check = document.getElementById('password-check');
+            if (password.length >= 6) {
+                this.classList.add('valid');
+                check.classList.add('show');
+            } else {
+                this.classList.remove('valid');
+                check.classList.remove('show');
+            }
+        });
+
+        document.getElementById('myForm').onsubmit = function() {
+            var name = nameInput.value.trim();
+            var email = emailInput.value.trim();
+            var age = ageInput.value;
+            var password = passwordInput.value;
+            
+            errorBanner.classList.remove('show');
+            
+            if (name === '' || email === '' || age === '' || password === '') {
+                errorBanner.textContent = 'Please fill in all fields';
+                errorBanner.classList.add('show');
+                return false;
+            }
+            
+            if (name.length < 2) {
+                errorBanner.textContent = 'Name must be at least 2 characters';
+                errorBanner.classList.add('show');
+                return false;
+            }
+            
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                errorBanner.textContent = 'Please enter a valid email address';
+                errorBanner.classList.add('show');
+                return false;
+            }
+            
+            if (password.length < 6) {
+                errorBanner.textContent = 'Password must be at least 6 characters';
+                errorBanner.classList.add('show');
+                return false;
+            }
+            
+            return true;
+        };
+    </script>
+</body>
+</html>
